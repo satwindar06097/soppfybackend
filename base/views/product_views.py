@@ -17,8 +17,8 @@ from rest_framework import status
 def getProducts(request):
     query = request.query_params.get('keyword', '')
 
-    products = Product.objects.filter(name__icontains=query)
-
+    products = Product.objects.filter(name__icontains=query).order_by('_id')
+    print("Number of products retrieved:", len(products))  
     paginator = Paginator(products, 5)
     page = request.query_params.get('page', 1)
 
@@ -32,6 +32,7 @@ def getProducts(request):
         products = paginator.page(paginator.num_pages)
 
     serializer = ProductSerializer(products, many=True)
+    print(serializer.data)
     return Response({'products': serializer.data, 'page': page, 'pages': paginator.num_pages})
 
 @api_view(['GET'])
