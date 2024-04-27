@@ -23,12 +23,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY', 'bsa0nyh2!xh5h01a!rgc6ot4y25@bu1%=7c3*^y0rw^2w$$895')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
-ALLOWED_HOSTS = [os.environ.get('ALLOWED_HOSTS', 'localhost')]
+ALLOWED_HOSTS = ['soppfybackend.onrender.com', 'localhost', '127.0.0.1', '[::1]']
+
 
 # Application definition
 
@@ -140,13 +141,17 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE':'django.db.backends.sqlite3',
-        'NAME': BASE_DIR/'db.sqlite3'
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3'
     }
 }
 
-database_url = os.environ.get('DATABASE_URL')
+# Corrected database URL
+database_url = os.environ.get('DATABASE_URL', 'postgres://soppfy_db_user:YDRC8cuzuAfQNOOSBkwkv2jMQXxQydZ4@dpg-cojrm66d3nmc73c1kncg-a.oregon-postgres.render.com/soppfy_db')
+
+# Parse and set the default database configuration
 DATABASES['default'] = dj_database_url.parse(database_url)
+
 
 
 
@@ -214,5 +219,3 @@ CORS_ORIGIN_ALLOW_ALL = True
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
